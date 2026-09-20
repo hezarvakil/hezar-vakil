@@ -103,8 +103,9 @@ async function demo(e,msg){
     `).join('');
 
   } catch (error) {
-    console.error(error);
-    list.innerHTML = '<div class="card">دریافت مقالات انجام نشد.</div>';
+  console.error(error);
+  list.innerHTML =
+    '<div class="card">خطا: ' + escapeHtml(error.message) + '</div>';
   }
 }
 
