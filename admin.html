@@ -83,11 +83,6 @@
       color: #b00020;
       margin-top: 10px;
     }
-
-    .success {
-      color: #087f23;
-      margin-top: 10px;
-    }
   </style>
 </head>
 
@@ -99,10 +94,10 @@
     <h1>ورود مدیر</h1>
 
     <label>ایمیل</label>
-    <input id="email" type="email" placeholder="ایمیل مدیر">
+    <input id="email" type="email">
 
     <label>رمز عبور</label>
-    <input id="password" type="password" placeholder="رمز عبور">
+    <input id="password" type="password">
 
     <button onclick="login()">ورود</button>
 
@@ -129,12 +124,10 @@
               <th>موضوع</th>
               <th>توضیحات</th>
               <th>وضعیت</th>
-              <th>تاریخ</th>
             </tr>
           </thead>
 
-          <tbody id="requestsTable">
-          </tbody>
+          <tbody id="requestsTable"></tbody>
         </table>
       </div>
     </div>
@@ -156,10 +149,7 @@
   async function login() {
     const email = document.getElementById('email').value.trim();
     const password = document.getElementById('password').value;
-
     const message = document.getElementById('loginMessage');
-
-    message.textContent = '';
 
     const { error } = await supabaseClient.auth.signInWithPassword({
       email: email,
@@ -169,7 +159,6 @@
     if (error) {
       message.className = 'error';
       message.textContent = 'ورود انجام نشد. ایمیل یا رمز عبور را بررسی کنید.';
-      console.error(error);
       return;
     }
 
@@ -187,10 +176,10 @@
   }
 
   async function loadRequests() {
+
     const { data, error } = await supabaseClient
       .from('consultation_requests')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .select('*');
 
     const table = document.getElementById('requestsTable');
 
@@ -199,17 +188,18 @@
     if (error) {
       console.error(error);
       table.innerHTML =
-        '<tr><td colspan="6">خطا در دریافت درخواست‌ها</td></tr>';
+        '<tr><td colspan="5">خطا در دریافت درخواست‌ها</td></tr>';
       return;
     }
 
     if (!data || data.length === 0) {
       table.innerHTML =
-        '<tr><td colspan="6">درخواستی ثبت نشده است.</td></tr>';
+        '<tr><td colspan="5">درخواستی ثبت نشده است.</td></tr>';
       return;
     }
 
     data.forEach(request => {
+
       const row = document.createElement('tr');
 
       row.innerHTML = `
@@ -218,7 +208,6 @@
         <td>${escapeHtml(request.subject || '')}</td>
         <td>${escapeHtml(request.description || '')}</td>
         <td>${escapeHtml(request.status || '')}</td>
-        <td>${request.created_at ? new Date(request.created_at).toLocaleString('fa-IR') : ''}</td>
       `;
 
       table.appendChild(row);
