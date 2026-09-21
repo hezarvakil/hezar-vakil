@@ -1066,104 +1066,108 @@ return String(value ?? '')
 
 async function loadArticles(){
 
-const list =
-document.getElementById('articles-list');
+const list = document.getElementById('articles-list');
 
-try{
+async function loadArticles() {
+  try {
+    const response = await fetch(
+      SUPABASE_URL +
+      '/rest/v1/articles?select=id,title,category,summary,content,author,published_at&is_published=eq.true&order=published_at.desc',
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+      }
+    );
 
-if(
-!SUPABASE_KEY ||
-SUPABASE_KEY.includes('کلید عمومی')
-){
+    if (!response.ok) {
+      throw new Error('خطا در دریافت مقالات');
+    }
 
-list.innerHTML = `
-<div class="card">
-<h3>مقالات حقوقی</h3>
-<p>
-اتصال پایگاه مقالات پس از وارد کردن کلید عمومی Supabase فعال می‌شود.
-</p>
-</div>
-`;
+    const articles = await response.json();
 
-return;
+    if (!articles.length) {
+      list.innerHTML = `
+        <div class="card">
+          <h3>مقالات حقوقی</h3>
+          <p>هنوز مقاله‌ای منتشر نشده است.</p>
+        </div>
+      `;
+      return;
+    }
 
+    list.innerHTML = articles.map(article => `
+      <article class="card">
+        <div class="article-category">
+          ${escapeHtml(article.category || 'مقالات حقوقی')}
+        </div>
+
+        <h3>${escapeHtml(article.title)}</h3>
+
+        <p>
+          ${escapeHtml(article.summary || '')}
+        </p>
+
+        <div class="article-meta">
+          ${escapeHtml(article.author || 'هزار و یک وکیل')}
+        </div>
+
+        <button
+          class="btn"
+          onclick="showArticle(${article.id})">
+          مطالعه مقاله
+        </button>
+      </article>
+    `).join('');
+
+  } catch (error) {
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="card">
+        <h3>مقالات حقوقی</h3>
+        <p>در حال حاضر دریافت مقالات با مشکل مواجه شده است.</p>
+      </div>
+    `;
+  }
 }
 
+async function showArticle(id) {
+  try {
+    const response = await fetch(
+      SUPABASE_URL +
+      '/rest/v1/articles?id=eq.' + id +
+      '&select=title,category,summary,content,author,published_at',
+      {
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': 'Bearer ' + SUPABASE_KEY
+        }
+      }
+    );
 
-const response =
-await fetch(
-SUPABASE_URL +
-'/rest/v1/articles?select=title,category,summary,author,published_at&is_published=eq.true&order=published_at.desc',
-{
-headers:{
-'apikey':SUPABASE_KEY,
-'Authorization':'Bearer '+SUPABASE_KEY
-}
-}
-);
+    if (!response.ok) {
+      throw new Error('خطا در دریافت مقاله');
+    }
 
+    const data = await response.json();
 
-if(!response.ok){
+    if (!data.length) return;
 
-throw new Error('خطا در دریافت مقالات');
+    const article = data[0];
 
-}
+    alert(
+      article.title + '\n\n' +
+      (article.content || article.summary || '')
+    );
 
-
-const articles =
-await response.json();
-
-
-if(!articles.length){
-
-list.innerHTML = `
-<div class="card">
-هنوز مقاله‌ای منتشر نشده است.
-</div>
-`;
-
-return;
-
+  } catch (error) {
+    alert('امکان نمایش مقاله وجود ندارد.');
+  }
 }
 
-
-list.innerHTML =
-articles.map(function(article){
-
-return `
-
-<div class="card">
-
-<div class="icon">📝</div>
-
-<h3>
-${escapeHtml(article.title)}
-</h3>
-
-<p class="meta">
-دسته‌بندی:
-${escapeHtml(article.category)}
-</p>
-
-<p class="article-content">
-${escapeHtml(article.summary || '')}
-</p>
-
-<small>
-نویسنده:
-${escapeHtml(article.author || 'هزار و یک وکیل')}
-</small>
-
-</div>
-
-`;
-
-}).join('');
-
-
-}catch(error){
-
-console.error(error);
+loadArticles();
 
 list.innerHTML = `
 <div class="card">
