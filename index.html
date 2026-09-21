@@ -1,26 +1,31 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="fa" dir="rtl">
 <head>
-<meta charset="utf-8">
-<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 
 <title>هزار و یک وکیل | مرجع حقوقی</title>
 
+<meta name="description"
+content="هزار و یک وکیل؛ مرجع قوانین، مقالات حقوقی، آرای قضایی، نظریات مشورتی و خدمات مشاوره حقوقی.">
+
 <style>
 :root{
-  --navy:#0d1b2a;
-  --navy2:#172d43;
-  --gold:#c8a45d;
-  --gold2:#e2c477;
-  --cream:#f7f3ea;
-  --white:#fff;
-  --text:#26313b;
-  --muted:#69737d;
-  --border:#e6ddcf;
+  --green:#123c35;
+  --green2:#1b574b;
+  --gold:#c9a45c;
+  --cream:#f8f5ee;
+  --white:#ffffff;
+  --text:#24312e;
+  --muted:#68736f;
+  --border:#e5e0d5;
+  --shadow:0 12px 35px rgba(18,60,53,.09);
 }
 
 *{
   box-sizing:border-box;
+  margin:0;
+  padding:0;
 }
 
 html{
@@ -28,9 +33,11 @@ html{
 }
 
 body{
-  margin:0;
-  font-family:Tahoma,Arial,sans-serif;
-  background:var(--cream);
+  font-family:
+    Tahoma,
+    Arial,
+    sans-serif;
+  background:#fff;
   color:var(--text);
   line-height:1.9;
 }
@@ -42,29 +49,29 @@ a{
 
 button,
 input,
-select,
-textarea{
+textarea,
+select{
   font-family:inherit;
 }
 
 .container{
-  width:min(1150px,92%);
+  width:min(1180px,92%);
   margin:auto;
 }
 
 /* HEADER */
 
 header{
-  background:linear-gradient(135deg,var(--navy),var(--navy2));
-  color:#fff;
   position:sticky;
   top:0;
   z-index:1000;
-  box-shadow:0 4px 20px #0002;
+  background:rgba(255,255,255,.96);
+  border-bottom:1px solid var(--border);
+  backdrop-filter:blur(10px);
 }
 
-.nav{
-  min-height:75px;
+.navbar{
+  min-height:78px;
   display:flex;
   align-items:center;
   justify-content:space-between;
@@ -72,43 +79,65 @@ header{
 }
 
 .logo{
-  color:var(--gold2);
-  font-size:24px;
-  font-weight:800;
-  white-space:nowrap;
+  display:flex;
+  align-items:center;
+  gap:12px;
+  font-weight:bold;
+  color:var(--green);
 }
 
-.logo small{
-  display:block;
-  color:#fff;
-  font-size:10px;
+.logo-icon{
+  width:44px;
+  height:44px;
+  border-radius:12px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--green);
+  color:var(--gold);
+  font-size:23px;
+}
+
+.logo-text{
+  line-height:1.35;
+}
+
+.logo-title{
+  font-size:18px;
+}
+
+.logo-sub{
+  font-size:11px;
+  color:var(--muted);
   font-weight:normal;
 }
 
-.links{
+nav{
   display:flex;
   align-items:center;
-  gap:18px;
-  font-size:13px;
+  gap:5px;
 }
 
-.links a{
-  color:#fff;
-  padding:8px 4px;
+nav a{
+  padding:9px 12px;
+  border-radius:8px;
+  font-size:14px;
+  color:#394640;
   transition:.2s;
 }
 
-.links a:hover{
-  color:var(--gold2);
+nav a:hover{
+  background:var(--cream);
+  color:var(--green);
 }
 
 .menu-btn{
   display:none;
-  background:transparent;
+  border:0;
+  background:var(--green);
   color:#fff;
-  border:1px solid #ffffff55;
-  border-radius:8px;
-  padding:7px 11px;
+  border-radius:9px;
+  padding:9px 12px;
   font-size:20px;
   cursor:pointer;
 }
@@ -116,110 +145,152 @@ header{
 /* HERO */
 
 .hero{
-  padding:85px 0;
   background:
-    radial-gradient(circle at 15% 20%,#c8a45d22,transparent 35%),
-    linear-gradient(135deg,#fbf8f1,#f2eadb);
+    radial-gradient(circle at 15% 20%,rgba(201,164,92,.15),transparent 28%),
+    linear-gradient(135deg,#123c35,#1b574b);
+  color:#fff;
+  padding:100px 0;
+  overflow:hidden;
 }
 
 .hero-grid{
   display:grid;
-  grid-template-columns:1.3fr .7fr;
-  gap:50px;
+  grid-template-columns:1.35fr .65fr;
+  gap:60px;
   align-items:center;
 }
 
+.badge{
+  display:inline-block;
+  padding:7px 14px;
+  border:1px solid rgba(255,255,255,.25);
+  border-radius:30px;
+  color:#f0d89f;
+  font-size:13px;
+  margin-bottom:20px;
+}
+
 .hero h1{
-  font-size:43px;
-  line-height:1.4;
-  color:var(--navy);
-  margin:0 0 20px;
+  font-size:clamp(34px,5vw,58px);
+  line-height:1.25;
+  margin-bottom:20px;
 }
 
-.lead{
-  font-size:18px;
-  color:var(--muted);
+.hero p{
   max-width:700px;
+  color:#e8efec;
+  font-size:17px;
 }
 
-.hero-buttons{
-  margin-top:25px;
+.hero-actions{
   display:flex;
   gap:12px;
   flex-wrap:wrap;
+  margin-top:30px;
 }
 
 .btn{
-  display:inline-block;
-  background:var(--gold);
-  color:#fff;
-  padding:11px 20px;
-  border-radius:10px;
+  display:inline-flex;
+  align-items:center;
+  justify-content:center;
   border:0;
+  border-radius:10px;
+  padding:12px 20px;
   cursor:pointer;
+  font-size:14px;
   font-weight:bold;
   transition:.2s;
 }
 
-.btn:hover{
-  transform:translateY(-1px);
-  opacity:.92;
+.btn-primary{
+  background:var(--gold);
+  color:#17382f;
 }
 
-.btn.dark{
-  background:var(--navy);
+.btn-primary:hover{
+  transform:translateY(-2px);
+}
+
+.btn-light{
+  background:#fff;
+  color:var(--green);
+}
+
+.btn-outline{
+  background:transparent;
+  color:#fff;
+  border:1px solid rgba(255,255,255,.35);
 }
 
 .hero-card{
-  background:#fff;
-  border:1px solid var(--border);
+  background:rgba(255,255,255,.09);
+  border:1px solid rgba(255,255,255,.16);
   border-radius:22px;
   padding:35px;
   text-align:center;
-  box-shadow:0 15px 45px #172d4312;
 }
 
-.seal{
-  width:125px;
-  height:125px;
-  border-radius:50%;
-  margin:auto;
-  border:2px solid var(--gold);
-  display:grid;
-  place-items:center;
+.hero-card .scale{
+  font-size:80px;
   color:var(--gold);
-  font-size:48px;
 }
 
 .hero-card h3{
-  color:var(--navy);
-  margin-bottom:5px;
+  margin-top:10px;
 }
 
 /* SECTIONS */
 
 section{
-  padding:70px 0;
+  padding:80px 0;
 }
 
-.head{
+.section-head{
   text-align:center;
-  margin-bottom:35px;
+  margin-bottom:40px;
 }
 
-.head h2{
-  color:var(--navy);
-  font-size:30px;
-  margin-bottom:5px;
+.section-head .eyebrow{
+  color:var(--gold);
+  font-weight:bold;
+  font-size:13px;
 }
 
-.head p{
+.section-head h2{
+  color:var(--green);
+  font-size:32px;
+  margin:5px 0 8px;
+}
+
+.section-head p{
   color:var(--muted);
+}
+
+/* SEARCH */
+
+.search-box{
+  max-width:850px;
+  margin:auto;
+  display:flex;
+  gap:10px;
+  background:#fff;
+  padding:10px;
+  border:1px solid var(--border);
+  border-radius:14px;
+  box-shadow:var(--shadow);
+}
+
+.search-box input{
+  flex:1;
+  border:0;
+  outline:0;
+  padding:13px;
+  font-size:15px;
 }
 
 /* CARDS */
 
-.grid{
+.cards{
   display:grid;
   grid-template-columns:repeat(3,1fr);
   gap:20px;
@@ -227,165 +298,263 @@ section{
 
 .card{
   background:#fff;
-  border-radius:18px;
-  padding:25px;
   border:1px solid var(--border);
-  box-shadow:0 8px 30px #172d430b;
+  border-radius:16px;
+  padding:25px;
+  box-shadow:0 8px 25px rgba(0,0,0,.035);
+  transition:.2s;
+}
+
+.card:hover{
+  transform:translateY(-3px);
+  box-shadow:var(--shadow);
+}
+
+.card-icon{
+  width:48px;
+  height:48px;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  background:var(--cream);
+  color:var(--green);
+  border-radius:12px;
+  font-size:22px;
+  margin-bottom:15px;
 }
 
 .card h3{
-  color:var(--navy);
+  color:var(--green);
+  margin-bottom:8px;
+  font-size:18px;
 }
 
-.icon{
-  font-size:32px;
-  color:var(--gold);
+.card p{
+  color:var(--muted);
+  font-size:14px;
 }
 
-/* SEARCH */
+.meta{
+  color:#9b7b38;
+  font-size:12px;
+  margin-bottom:8px;
+}
 
-.search-box{
-  max-width:800px;
-  margin:0 auto 30px;
+.article-card{
   display:flex;
-  gap:10px;
+  flex-direction:column;
+  height:100%;
 }
 
-.search-box input{
-  flex:1;
-  padding:14px;
-  border:1px solid var(--border);
-  border-radius:10px;
-  outline:none;
-  background:#fff;
+.article-card .btn{
+  margin-top:auto;
+  align-self:flex-start;
+}
+
+/* BACKGROUNDS */
+
+.soft{
+  background:var(--cream);
 }
 
 /* FORMS */
 
-.form{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:16px;
+.form-wrap{
+  max-width:850px;
+  margin:auto;
+  background:#fff;
+  border:1px solid var(--border);
+  border-radius:20px;
+  padding:30px;
+  box-shadow:var(--shadow);
 }
 
-.full{
+.form-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:18px;
+}
+
+.field{
+  display:flex;
+  flex-direction:column;
+  gap:7px;
+}
+
+.field.full{
   grid-column:1/-1;
 }
 
-label{
+.field label{
   font-size:13px;
   font-weight:bold;
+  color:var(--green);
 }
 
-input,
-select,
-textarea{
+.field input,
+.field select,
+.field textarea{
   width:100%;
-  padding:12px;
-  margin-top:6px;
-  border:1px solid #d9d1c3;
+  border:1px solid var(--border);
   border-radius:9px;
-  background:#fff;
+  padding:12px;
   outline:none;
+  background:#fff;
 }
 
-input:focus,
-select:focus,
-textarea:focus{
+.field input:focus,
+.field select:focus,
+.field textarea:focus{
   border-color:var(--gold);
 }
 
-textarea{
+.field textarea{
   min-height:130px;
   resize:vertical;
 }
 
-.notice{
-  padding:13px 16px;
-  border-right:4px solid var(--gold);
-  background:#fbf7ee;
-  border-radius:8px;
-  font-size:13px;
-  margin-top:18px;
-}
-
-/* LEGAL ITEMS */
-
-.legal-item{
-  margin-bottom:15px;
-}
-
-.legal-item h3{
-  margin-top:0;
-}
-
-.meta{
-  color:var(--muted);
-  font-size:12px;
-}
-
-.article-content{
-  color:#4e5963;
+.form-message{
+  margin-top:15px;
+  font-size:14px;
 }
 
 /* CONTACT */
 
-.contact{
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:25px;
-}
-
 .contact-box{
-  background:#fff;
-  border:1px solid var(--border);
-  border-radius:18px;
-  padding:28px;
+  background:var(--green);
+  color:#fff;
+  border-radius:22px;
+  padding:45px;
+  display:grid;
+  grid-template-columns:1fr auto;
+  align-items:center;
+  gap:30px;
 }
 
-.contact-title{
-  color:var(--navy);
+.contact-box h2{
+  margin-bottom:10px;
+}
+
+.contact-box p{
+  color:#d9e5e1;
 }
 
 /* FOOTER */
 
 footer{
-  background:var(--navy);
-  color:#fff;
-  padding:40px 0;
-  text-align:center;
+  background:#0d2d28;
+  color:#dce8e4;
+  padding:45px 0 20px;
 }
 
-.footer-logo{
-  color:var(--gold2);
-  font-size:22px;
-  font-weight:bold;
+.footer-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr 1fr;
+  gap:35px;
+}
+
+footer h3{
+  color:#fff;
+  margin-bottom:12px;
+}
+
+footer p,
+footer a{
+  color:#aebfba;
+  font-size:13px;
+}
+
+footer a{
+  display:block;
+  margin:5px 0;
+}
+
+.copyright{
+  border-top:1px solid rgba(255,255,255,.1);
+  margin-top:30px;
+  padding-top:20px;
+  text-align:center;
+  font-size:12px;
+  color:#91a49e;
+}
+
+/* MODAL */
+
+.modal{
+  display:none;
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.55);
+  z-index:2000;
+  padding:25px;
+  overflow:auto;
+}
+
+.modal.show{
+  display:flex;
+  align-items:center;
+  justify-content:center;
+}
+
+.modal-box{
+  width:min(800px,100%);
+  background:#fff;
+  border-radius:18px;
+  padding:30px;
+  position:relative;
+  max-height:90vh;
+  overflow:auto;
+}
+
+.close{
+  position:absolute;
+  left:18px;
+  top:14px;
+  border:0;
+  background:#f2eee5;
+  width:35px;
+  height:35px;
+  border-radius:50%;
+  cursor:pointer;
+  font-size:20px;
+}
+
+.modal-box h2{
+  color:var(--green);
+  margin-bottom:15px;
+}
+
+.article-content{
+  white-space:pre-line;
+  color:#46524e;
+  line-height:2;
 }
 
 /* MOBILE */
 
 @media(max-width:900px){
 
-  .links{
+  nav{
     display:none;
     position:absolute;
-    top:75px;
-    right:0;
-    left:0;
-    background:var(--navy);
-    padding:15px 4%;
+    top:78px;
+    right:4%;
+    left:4%;
+    background:#fff;
+    border:1px solid var(--border);
+    border-radius:14px;
+    padding:10px;
+    box-shadow:var(--shadow);
     flex-direction:column;
     align-items:stretch;
-    gap:2px;
   }
 
-  .links.open{
+  nav.open{
     display:flex;
   }
 
-  .links a{
-    border-bottom:1px solid #ffffff18;
-    padding:10px;
+  nav a{
+    padding:12px;
   }
 
   .menu-btn{
@@ -396,39 +565,56 @@ footer{
     grid-template-columns:1fr;
   }
 
-  .grid{
-    grid-template-columns:1fr;
+  .cards{
+    grid-template-columns:1fr 1fr;
   }
 
-  .contact{
+  .footer-grid{
     grid-template-columns:1fr;
-  }
-
-  .hero h1{
-    font-size:33px;
   }
 }
 
-@media(max-width:650px){
+@media(max-width:600px){
 
-  section{
-    padding:50px 0;
+  .navbar{
+    min-height:68px;
   }
 
-  .form{
+  .hero{
+    padding:70px 0;
+  }
+
+  section{
+    padding:60px 0;
+  }
+
+  .hero h1{
+    font-size:34px;
+  }
+
+  .cards{
     grid-template-columns:1fr;
   }
 
-  .full{
+  .form-grid{
+    grid-template-columns:1fr;
+  }
+
+  .field.full{
     grid-column:auto;
+  }
+
+  .contact-box{
+    grid-template-columns:1fr;
+    padding:30px;
   }
 
   .search-box{
     flex-direction:column;
   }
 
-  .logo{
-    font-size:20px;
+  .search-box .btn{
+    width:100%;
   }
 }
 </style>
@@ -436,566 +622,452 @@ footer{
 
 <body>
 
-<!-- HEADER -->
-
 <header>
-<div class="container nav">
+  <div class="container navbar">
 
-<a class="logo" href="#home">
-هزار و یک وکیل
-<small>مجموعه حقوقی و مرجع حقوقی</small>
-</a>
+    <a href="#home" class="logo">
+      <div class="logo-icon">⚖</div>
+      <div class="logo-text">
+        <div class="logo-title">هزار و یک وکیل</div>
+        <div class="logo-sub">مجموعه حقوقی و مرجع حقوقی</div>
+      </div>
+    </a>
 
-<button class="menu-btn" onclick="toggleMenu()">☰</button>
+    <button class="menu-btn" onclick="toggleMenu()">☰</button>
 
-<nav class="links" id="mainMenu">
+    <nav id="mainMenu">
+      <a href="#home">خانه</a>
+      <a href="#laws">قوانین</a>
+      <a href="#judgments">آرای قضایی</a>
+      <a href="#opinions">نظریات مشورتی</a>
+      <a href="#articles">مقالات</a>
+      <a href="#consult">مشاوره</a>
+      <a href="#case">ثبت پرونده</a>
+      <a href="#contact">تماس با ما</a>
+    </nav>
 
-<a href="#home">خانه</a>
-<a href="#laws">قوانین</a>
-<a href="#judgments">آرای قضایی</a>
-<a href="#opinions">نظریات مشورتی</a>
-<a href="#articles">مقالات</a>
-<a href="#consult">مشاوره</a>
-<a href="#case">ثبت پرونده</a>
-<a href="#contact">تماس با ما</a>
-
-</nav>
-
-</div>
+  </div>
 </header>
 
 
-<main>
+<!-- HERO -->
 
-<!-- HOME -->
+<section class="hero" id="home">
+  <div class="container hero-grid">
 
-<section id="home" class="hero">
+    <div>
+      <span class="badge">مرجع حقوقی «هزار و یک وکیل»</span>
 
-<div class="container hero-grid">
+      <h1>
+        اطلاعات حقوقی، ساده‌تر و منظم‌تر
+      </h1>
 
-<div>
+      <p>
+        دسترسی به قوانین، مقالات حقوقی، آرای قضایی و نظریات مشورتی،
+        همراه با امکان ثبت درخواست مشاوره و پرونده.
+      </p>
 
-<h1>
-مرجع حقوقی «هزار و یک وکیل»
-</h1>
+      <div class="hero-actions">
+        <a class="btn btn-primary" href="#consult">
+          درخواست مشاوره
+        </a>
 
-<p class="lead">
-دسترسی ساده‌تر به قوانین، آرای قضایی، نظریات مشورتی و مطالب حقوقی، همراه با امکان دریافت مشاوره و ثبت درخواست پرونده.
-</p>
+        <a class="btn btn-light" href="#laws">
+          جست‌وجوی قوانین
+        </a>
 
-<div class="hero-buttons">
+        <a class="btn btn-outline" href="tel:+989190392489">
+          📞 تماس با ما
+        </a>
+      </div>
+    </div>
 
-<a class="btn" href="#consult">
-درخواست مشاوره
-</a>
+    <div class="hero-card">
+      <div class="scale">⚖</div>
+      <h3>هزار و یک وکیل</h3>
+      <p>مجموعه حقوقی و مرجع اطلاعات حقوقی</p>
+    </div>
 
-<a class="btn dark" href="#laws">
-جست‌وجوی قوانین
-</a>
-
-<a class="btn" href="tel:09190392489">
-📞 تماس با ما
-</a>
-
-</div>
-
-</div>
-
-
-<div class="hero-card">
-
-<div class="seal">⚖</div>
-
-<h3>هزار و یک وکیل</h3>
-
-<p>مجموعه حقوقی</p>
-
-<p>
-دسترسی منظم به منابع و اطلاعات حقوقی
-</p>
-
-<a class="btn" href="#contact">
-شروع کار
-</a>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- SEARCH -->
 
-<section id="search">
+<section>
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">جست‌وجوی سریع</div>
+      <h2>جست‌وجوی حقوقی</h2>
+      <p>
+        جست‌وجو در قوانین و مقالات منتشرشده
+      </p>
+    </div>
 
-<div class="head">
+    <div class="search-box">
+      <input
+        id="searchInput"
+        type="text"
+        placeholder="مثلاً قانون مدنی، چک، سفته..."
+        oninput="globalSearch()">
 
-<h2>🔎 جست‌وجوی حقوقی</h2>
+      <button class="btn btn-primary" onclick="globalSearch()">
+        جست‌وجو
+      </button>
+    </div>
 
-<p>
-جست‌وجو در قوانین، آرای قضایی، نظریات مشورتی و مقالات
-</p>
+    <div id="searchResults" class="cards" style="margin-top:25px"></div>
 
-</div>
-
-<div class="search-box">
-
-<input
-id="globalSearch"
-type="search"
-placeholder="مثلاً چک، قرارداد، اجاره، مهریه..."
-oninput="globalSearch()"
->
-
-<button class="btn" onclick="globalSearch()">
-جست‌وجو
-</button>
-
-</div>
-
-<div id="searchResults"></div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- LAWS -->
 
-<section id="laws">
+<section class="soft" id="laws">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">بانک قوانین</div>
+      <h2>قوانین و مقررات</h2>
+      <p>
+        دسترسی به قوانین ثبت‌شده در پایگاه حقوقی
+      </p>
+    </div>
 
-<div class="head">
+    <div id="laws-list" class="cards">
+      <div class="card">
+        <p>در حال دریافت قوانین...</p>
+      </div>
+    </div>
 
-<h2>⚖ قوانین و مقررات</h2>
-
-<p>
-دسترسی به قوانین و مقررات مهم حقوقی
-</p>
-
-</div>
-
-<div id="laws-list" class="grid">
-
-<div class="card">
-در حال دریافت قوانین...
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- JUDGMENTS -->
 
 <section id="judgments">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">آرشیو قضایی</div>
+      <h2>آرای قضایی</h2>
+      <p>
+        بخش اختصاصی برای انتشار و دسته‌بندی آرای قضایی
+      </p>
+    </div>
 
-<div class="head">
+    <div class="cards">
 
-<h2>📜 آرای قضایی</h2>
+      <div class="card">
+        <div class="card-icon">📜</div>
+        <h3>آرای قضایی</h3>
+        <p>
+          انتشار و دسته‌بندی آرای قضایی بر اساس موضوع.
+        </p>
+      </div>
 
-<p>
-آرای قضایی و نمونه تصمیمات حقوقی
-</p>
+      <div class="card">
+        <div class="card-icon">⚖</div>
+        <h3>آرای وحدت رویه</h3>
+        <p>
+          ایجاد بانک اطلاعاتی آرای وحدت رویه.
+        </p>
+      </div>
 
-</div>
+      <div class="card">
+        <div class="card-icon">🔎</div>
+        <h3>جست‌وجوی آرا</h3>
+        <p>
+          امکان توسعه جست‌وجو بر اساس شماره، سال و موضوع.
+        </p>
+      </div>
 
-<div id="judgments-list" class="grid">
+    </div>
 
-<div class="card">
-<h3>آرای قضایی</h3>
-<p>
-این بخش برای انتشار و دسته‌بندی آرای قضایی ایجاد شده است.
-</p>
-</div>
-
-<div class="card">
-<h3>آرای وحدت رویه</h3>
-<p>
-امکان اضافه کردن آرای وحدت رویه بر اساس سال و موضوع.
-</p>
-</div>
-
-<div class="card">
-<h3>آرای مهم حقوقی</h3>
-<p>
-امکان ایجاد بانک اطلاعاتی آرای منتخب و قابل جست‌وجو.
-</p>
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- OPINIONS -->
 
-<section id="opinions">
+<section class="soft" id="opinions">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">مرجع حقوقی</div>
+      <h2>نظریات مشورتی</h2>
+      <p>
+        دسته‌بندی و انتشار نظریات مشورتی حقوقی
+      </p>
+    </div>
 
-<div class="head">
+    <div class="cards">
 
-<h2>📚 نظریات مشورتی</h2>
+      <div class="card">
+        <div class="card-icon">📚</div>
+        <h3>نظریات مشورتی</h3>
+        <p>
+          امکان ایجاد بانک نظریات مشورتی بر اساس موضوع.
+        </p>
+      </div>
 
-<p>
-نظریات مشورتی و پاسخ‌های حقوقی قابل جست‌وجو
-</p>
+      <div class="card">
+        <div class="card-icon">🔍</div>
+        <h3>جست‌وجوی نظریات</h3>
+        <p>
+          قابلیت توسعه جست‌وجوی نظریات بر اساس شماره و تاریخ.
+        </p>
+      </div>
 
-</div>
+      <div class="card">
+        <div class="card-icon">⚖</div>
+        <h3>دسته‌بندی حقوقی</h3>
+        <p>
+          حقوق مدنی، کیفری، خانواده، تجارت و سایر موضوعات.
+        </p>
+      </div>
 
-<div class="grid">
+    </div>
 
-<div class="card">
-<h3>نظریات مشورتی</h3>
-<p>
-امکان دسته‌بندی بر اساس موضوع، شماره و تاریخ نظریه.
-</p>
-</div>
-
-<div class="card">
-<h3>جست‌وجوی نظریات</h3>
-<p>
-در نسخه توسعه‌یافته، متن کامل نظریات قابل جست‌وجو خواهد بود.
-</p>
-</div>
-
-<div class="card">
-<h3>دسته‌بندی حقوقی</h3>
-<p>
-حقوق مدنی، کیفری، خانواده، تجارت و سایر موضوعات.
-</p>
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- ARTICLES -->
 
 <section id="articles">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">مجله حقوقی</div>
+      <h2>مقالات حقوقی</h2>
+      <p>
+        مطالب و آموزش‌های حقوقی «هزار و یک وکیل»
+      </p>
+    </div>
 
-<div class="head">
+    <div id="articles-list" class="cards">
+      <div class="card">
+        <p>در حال دریافت مقالات...</p>
+      </div>
+    </div>
 
-<h2>📝 مقالات حقوقی</h2>
-
-<p>
-مطالب و آموزش‌های حقوقی «هزار و یک وکیل»
-</p>
-
-</div>
-
-<div id="articles-list" class="grid">
-
-<div class="card">
-در حال دریافت مقالات...
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- CONSULTATION -->
 
-<section id="consult">
+<section class="soft" id="consult">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">خدمات حقوقی</div>
+      <h2>درخواست مشاوره</h2>
+      <p>
+        اطلاعات درخواست خود را وارد کنید تا در سامانه ثبت شود.
+      </p>
+    </div>
 
-<div class="head">
+    <div class="form-wrap">
 
-<h2>💬 درخواست مشاوره</h2>
+      <form id="consultForm">
 
-<p>
-اطلاعات درخواست خود را وارد کنید تا در سامانه ثبت شود.
-</p>
+        <div class="form-grid">
 
-</div>
+          <div class="field">
+            <label>نام و نام خانوادگی</label>
+            <input name="name" required>
+          </div>
 
-<div class="card">
+          <div class="field">
+            <label>شماره تماس</label>
+            <input name="phone" type="tel" required>
+          </div>
 
-<form class="form" onsubmit="submitConsultation(event)">
+          <div class="field">
+            <label>نوع مشاوره</label>
+            <select name="type">
+              <option value="تلفنی">تلفنی</option>
+              <option value="حضوری">حضوری</option>
+              <option value="آنلاین">آنلاین</option>
+            </select>
+          </div>
 
-<div>
+          <div class="field">
+            <label>موضوع</label>
+            <input name="subject" required>
+          </div>
 
-<label>
-نام و نام خانوادگی
-</label>
+          <div class="field full">
+            <label>توضیحات</label>
+            <textarea name="description"></textarea>
+          </div>
 
-<input
-id="consultName"
-required
->
+          <div class="field full">
+            <button class="btn btn-primary" type="submit">
+              ثبت درخواست مشاوره
+            </button>
+          </div>
 
-</div>
+        </div>
 
+      </form>
 
-<div>
+      <div id="consultMessage" class="form-message"></div>
 
-<label>
-شماره تماس
-</label>
+    </div>
 
-<input
-id="consultPhone"
-type="tel"
-required
->
-
-</div>
-
-
-<div>
-
-<label>
-نوع مشاوره
-</label>
-
-<select id="consultType">
-
-<option>تلفنی</option>
-<option>حضوری</option>
-<option>آنلاین</option>
-
-</select>
-
-</div>
-
-
-<div>
-
-<label>
-موضوع
-</label>
-
-<input id="consultSubject">
-
-</div>
-
-
-<div class="full">
-
-<label>
-توضیحات
-</label>
-
-<textarea id="consultDescription"></textarea>
-
-</div>
-
-
-<div class="full">
-
-<button class="btn" type="submit">
-ثبت درخواست مشاوره
-</button>
-
-</div>
-
-</form>
-
-
-<div class="notice">
-اطلاعات فرم برای بررسی درخواست شما در سامانه ثبت می‌شود.
-</div>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- CASE -->
 
 <section id="case">
+  <div class="container">
 
-<div class="container">
+    <div class="section-head">
+      <div class="eyebrow">خدمات حقوقی</div>
+      <h2>ثبت پرونده</h2>
+      <p>
+        اطلاعات اولیه پرونده خود را برای بررسی ثبت کنید.
+      </p>
+    </div>
 
-<div class="head">
+    <div class="form-wrap">
 
-<h2>📁 ثبت پرونده</h2>
+      <form id="caseForm">
 
-<p>
-اطلاعات اولیه پرونده خود را برای بررسی ثبت کنید.
-</p>
+        <div class="form-grid">
 
-</div>
+          <div class="field">
+            <label>نام و نام خانوادگی</label>
+            <input name="name" required>
+          </div>
 
-<div class="card">
+          <div class="field">
+            <label>شماره تماس</label>
+            <input name="phone" type="tel" required>
+          </div>
 
-<form class="form" onsubmit="submitCase(event)">
+          <div class="field">
+            <label>موضوع پرونده</label>
+            <input name="subject" required>
+          </div>
 
-<div>
+          <div class="field">
+            <label>شهر</label>
+            <input name="city">
+          </div>
 
-<label>
-نام و نام خانوادگی
-</label>
+          <div class="field full">
+            <label>شرح مختصر پرونده</label>
+            <textarea name="description"></textarea>
+          </div>
 
-<input required>
+          <div class="field full">
+            <button class="btn btn-primary" type="submit">
+              ثبت پرونده
+            </button>
+          </div>
 
-</div>
+        </div>
 
+      </form>
 
-<div>
+      <div id="caseMessage" class="form-message"></div>
 
-<label>
-شماره تماس
-</label>
+    </div>
 
-<input type="tel" required>
-
-</div>
-
-
-<div>
-
-<label>
-موضوع پرونده
-</label>
-
-<input required>
-
-</div>
-
-
-<div>
-
-<label>
-شهر
-</label>
-
-<input value="تهران">
-
-</div>
-
-
-<div class="full">
-
-<label>
-شرح مختصر پرونده
-</label>
-
-<textarea required></textarea>
-
-</div>
-
-
-<div class="full">
-
-<button class="btn" type="submit">
-ثبت پرونده
-</button>
-
-</div>
-
-</form>
-
-</div>
-
-</div>
-
+  </div>
 </section>
 
 
 <!-- CONTACT -->
 
 <section id="contact">
+  <div class="container">
 
-<div class="container contact">
+    <div class="contact-box">
 
-<div class="contact-box">
+      <div>
+        <h2>تماس با مجموعه</h2>
+        <p>
+          برای ارتباط مستقیم با مجموعه حقوقی «هزار و یک وکیل»
+          از دکمه تماس استفاده کنید.
+        </p>
+      </div>
 
-<h2 class="contact-title">
-تماس با مجموعه
-</h2>
+      <a
+        class="btn btn-primary"
+        href="tel:+989190392489">
+        📞 تماس با ما
+      </a>
 
-<p>
-<strong>وکیل:</strong>
-مولایی
-</p>
+    </div>
 
-<p>
-<strong>شهر:</strong>
-تهران
-</p>
-
-<p>
-برای تماس مستقیم با مجموعه روی دکمه زیر بزنید.
-</p>
-
-<a class="btn" href="tel:09190392489">
-📞 تماس با ما
-</a>
-
-</div>
-
-
-<div class="contact-box">
-
-<h2 class="contact-title">
-شروع سریع
-</h2>
-
-<p>
-برای استفاده از خدمات سایت می‌توانید یکی از گزینه‌های زیر را انتخاب کنید.
-</p>
-
-<a class="btn" href="#consult">
-درخواست مشاوره
-</a>
-
-<a class="btn dark" href="#case">
-ثبت پرونده
-</a>
-
-</div>
-
-</div>
-
+  </div>
 </section>
-
-</main>
 
 
 <!-- FOOTER -->
 
 <footer>
 
-<div class="container">
+  <div class="container footer-grid">
 
-<div class="footer-logo">
-هزار و یک وکیل
-</div>
+    <div>
+      <h3>هزار و یک وکیل</h3>
+      <p>
+        مجموعه حقوقی و مرجع اطلاعات حقوقی.
+        هدف این سایت، دسترسی منظم‌تر به منابع و خدمات حقوقی است.
+      </p>
+    </div>
 
-<p>
-مجموعه حقوقی و مرجع اطلاعات حقوقی
-</p>
+    <div>
+      <h3>دسترسی سریع</h3>
+      <a href="#laws">قوانین</a>
+      <a href="#articles">مقالات</a>
+      <a href="#consult">مشاوره</a>
+      <a href="#case">ثبت پرونده</a>
+    </div>
 
-<p>
-© تمامی حقوق محفوظ است.
-</p>
+    <div>
+      <h3>ارتباط</h3>
+      <a href="tel:+989190392489">📞 تماس با ما</a>
+      <a href="#contact">اطلاعات مجموعه</a>
+    </div>
 
-</div>
+  </div>
+
+  <div class="container copyright">
+    © تمامی حقوق محفوظ است — هزار و یک وکیل
+  </div>
 
 </footer>
+
+
+<!-- ARTICLE MODAL -->
+
+<div class="modal" id="articleModal">
+
+  <div class="modal-box">
+
+    <button class="close" onclick="closeArticle()">×</button>
+
+    <h2 id="modalTitle"></h2>
+
+    <div class="meta" id="modalMeta"></div>
+
+    <div class="article-content" id="modalContent"></div>
+
+  </div>
+
+</div>
 
 
 <script>
@@ -1008,10 +1080,27 @@ const SUPABASE_URL =
 'https://yrsuwiqslntwfscelbto.supabase.co';
 
 /*
-  کلید عمومی Supabase خودت را اینجا قرار بده.
+  کلید عمومی فعلی Supabase خودت را
+  در این قسمت نگه دار.
 */
 const SUPABASE_KEY =
 'sb_publishable_JVjtLXkWbkgVrREhJE1fJA_vutsZn68';
+
+
+/* =========================
+   SECURITY
+========================= */
+
+function escapeHtml(value){
+
+  return String(value ?? '')
+    .replaceAll('&','&amp;')
+    .replaceAll('<','&lt;')
+    .replaceAll('>','&gt;')
+    .replaceAll('"','&quot;')
+    .replaceAll("'","&#039;");
+
+}
 
 
 /* =========================
@@ -1020,42 +1109,108 @@ const SUPABASE_KEY =
 
 function toggleMenu(){
 
-const menu =
-document.getElementById('mainMenu');
-
-menu.classList.toggle('open');
+  document
+    .getElementById('mainMenu')
+    .classList.toggle('open');
 
 }
 
-
-/* بستن منو بعد از انتخاب */
-
-document.querySelectorAll('#mainMenu a')
-.forEach(function(link){
-
-link.addEventListener('click',function(){
-
 document
-.getElementById('mainMenu')
-.classList.remove('open');
+  .querySelectorAll('#mainMenu a')
+  .forEach(function(link){
 
-});
+    link.addEventListener('click',function(){
 
-});
+      document
+        .getElementById('mainMenu')
+        .classList.remove('open');
+
+    });
+
+  });
 
 
 /* =========================
-   HTML SECURITY
+   LAWS
 ========================= */
 
-function escapeHtml(value){
+async function loadLaws(){
 
-return String(value ?? '')
-.replaceAll('&','&amp;')
-.replaceAll('<','&lt;')
-.replaceAll('>','&gt;')
-.replaceAll('"','&quot;')
-.replaceAll("'",'&#039;');
+  const list =
+    document.getElementById('laws-list');
+
+  try{
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        '/rest/v1/laws?select=id,name,category,approval_date,description&order=id.asc',
+        {
+          headers:{
+            'apikey':SUPABASE_KEY,
+            'Authorization':'Bearer ' + SUPABASE_KEY
+          }
+        }
+      );
+
+    if(!response.ok){
+      throw new Error('خطا در دریافت قوانین');
+    }
+
+    const laws =
+      await response.json();
+
+    if(!laws.length){
+
+      list.innerHTML = `
+        <div class="card">
+          <h3>قوانین</h3>
+          <p>هنوز قانونی ثبت نشده است.</p>
+        </div>
+      `;
+
+      return;
+    }
+
+    list.innerHTML =
+      laws.map(function(law){
+
+        return `
+          <div class="card">
+
+            <div class="card-icon">⚖</div>
+
+            <h3>
+              ${escapeHtml(law.name)}
+            </h3>
+
+            <div class="meta">
+              ${escapeHtml(law.category || '')}
+            </div>
+
+            <p>
+              ${escapeHtml(law.description || '')}
+            </p>
+
+          </div>
+        `;
+
+      }).join('');
+
+  }catch(error){
+
+    console.error(error);
+
+    list.innerHTML = `
+      <div class="card">
+        <h3>قوانین</h3>
+        <p>
+          دریافت قوانین در حال حاضر امکان‌پذیر نیست.
+        </p>
+      </div>
+    `;
+
+  }
 
 }
 
@@ -1064,118 +1219,235 @@ return String(value ?? '')
    ARTICLES
 ========================= */
 
+let allArticles = [];
+
+
 async function loadArticles(){
 
-const list = document.getElementById('articles-list');
+  const list =
+    document.getElementById('articles-list');
 
-async function loadArticles() {
-  try {
-    const response = await fetch(
-      SUPABASE_URL +
-      '/rest/v1/articles?select=id,title,category,summary,content,author,published_at&is_published=eq.true&order=published_at.desc',
-      {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY
+  try{
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        '/rest/v1/articles?select=id,title,category,summary,content,author,published_at&is_published=eq.true&order=published_at.desc',
+        {
+          headers:{
+            'apikey':SUPABASE_KEY,
+            'Authorization':'Bearer ' + SUPABASE_KEY
+          }
         }
-      }
-    );
+      );
 
-    if (!response.ok) {
+    if(!response.ok){
       throw new Error('خطا در دریافت مقالات');
     }
 
-    const articles = await response.json();
+    allArticles =
+      await response.json();
 
-    if (!articles.length) {
+    if(!allArticles.length){
+
       list.innerHTML = `
         <div class="card">
           <h3>مقالات حقوقی</h3>
-          <p>هنوز مقاله‌ای منتشر نشده است.</p>
+          <p>
+            هنوز مقاله‌ای منتشر نشده است.
+          </p>
         </div>
       `;
+
       return;
     }
 
-    list.innerHTML = articles.map(article => `
-      <article class="card">
-        <div class="article-category">
-          ${escapeHtml(article.category || 'مقالات حقوقی')}
-        </div>
+    renderArticles(allArticles);
 
-        <h3>${escapeHtml(article.title)}</h3>
+  }catch(error){
 
-        <p>
-          ${escapeHtml(article.summary || '')}
-        </p>
-
-        <div class="article-meta">
-          ${escapeHtml(article.author || 'هزار و یک وکیل')}
-        </div>
-
-        <button
-          class="btn"
-          onclick="showArticle(${article.id})">
-          مطالعه مقاله
-        </button>
-      </article>
-    `).join('');
-
-  } catch (error) {
     console.error(error);
 
     list.innerHTML = `
       <div class="card">
         <h3>مقالات حقوقی</h3>
-        <p>در حال حاضر دریافت مقالات با مشکل مواجه شده است.</p>
+        <p>
+          دریافت مقالات در حال حاضر امکان‌پذیر نیست.
+        </p>
       </div>
     `;
+
   }
+
 }
 
-async function showArticle(id) {
-  try {
-    const response = await fetch(
-      SUPABASE_URL +
-      '/rest/v1/articles?id=eq.' + id +
-      '&select=title,category,summary,content,author,published_at',
-      {
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': 'Bearer ' + SUPABASE_KEY
-        }
-      }
-    );
 
-    if (!response.ok) {
-      throw new Error('خطا در دریافت مقاله');
-    }
+function renderArticles(articles){
 
-    const data = await response.json();
+  const list =
+    document.getElementById('articles-list');
 
-    if (!data.length) return;
+  list.innerHTML =
+    articles.map(function(article){
 
-    const article = data[0];
+      return `
+        <article class="card article-card">
 
-    alert(
-      article.title + '\n\n' +
-      (article.content || article.summary || '')
-    );
+          <div class="meta">
+            ${escapeHtml(article.category || 'مقالات حقوقی')}
+          </div>
 
-  } catch (error) {
-    alert('امکان نمایش مقاله وجود ندارد.');
+          <h3>
+            ${escapeHtml(article.title)}
+          </h3>
+
+          <p>
+            ${escapeHtml(article.summary || '')}
+          </p>
+
+          <div class="meta">
+            ${escapeHtml(article.author || 'هزار و یک وکیل')}
+          </div>
+
+          <button
+            class="btn btn-primary"
+            onclick="showArticle(${article.id})">
+            مطالعه مقاله
+          </button>
+
+        </article>
+      `;
+
+    }).join('');
+
+}
+
+
+function showArticle(id){
+
+  const article =
+    allArticles.find(function(item){
+
+      return Number(item.id) === Number(id);
+
+    });
+
+  if(!article){
+    return;
   }
+
+  document.getElementById('modalTitle').textContent =
+    article.title || '';
+
+  document.getElementById('modalMeta').textContent =
+    (article.category || 'مقالات حقوقی') +
+    ' — ' +
+    (article.author || 'هزار و یک وکیل');
+
+  document.getElementById('modalContent').textContent =
+    article.content ||
+    article.summary ||
+    '';
+
+  document
+    .getElementById('articleModal')
+    .classList.add('show');
+
 }
 
-loadArticles();
 
-list.innerHTML = `
-<div class="card">
-خطا در دریافت مقالات.
-</div>
-`;
+function closeArticle(){
+
+  document
+    .getElementById('articleModal')
+    .classList.remove('show');
 
 }
+
+
+/* =========================
+   SEARCH
+========================= */
+
+function globalSearch(){
+
+  const query =
+    document
+      .getElementById('searchInput')
+      .value
+      .trim()
+      .toLowerCase();
+
+  const results =
+    document.getElementById('searchResults');
+
+  if(!query){
+
+    results.innerHTML = '';
+
+    return;
+  }
+
+  const found =
+    allArticles.filter(function(article){
+
+      const text =
+        (
+          article.title +
+          ' ' +
+          (article.category || '') +
+          ' ' +
+          (article.summary || '') +
+          ' ' +
+          (article.content || '')
+        ).toLowerCase();
+
+      return text.includes(query);
+
+    });
+
+  if(!found.length){
+
+    results.innerHTML = `
+      <div class="card">
+        <h3>نتیجه‌ای پیدا نشد</h3>
+        <p>
+          برای عبارت جست‌وجوشده مقاله‌ای پیدا نشد.
+        </p>
+      </div>
+    `;
+
+    return;
+  }
+
+  results.innerHTML =
+    found.map(function(article){
+
+      return `
+        <div class="card">
+
+          <div class="meta">
+            ${escapeHtml(article.category || '')}
+          </div>
+
+          <h3>
+            ${escapeHtml(article.title)}
+          </h3>
+
+          <p>
+            ${escapeHtml(article.summary || '')}
+          </p>
+
+          <button
+            class="btn btn-primary"
+            onclick="showArticle(${article.id})">
+            مطالعه مقاله
+          </button>
+
+        </div>
+      `;
+
+    }).join('');
 
 }
 
@@ -1184,362 +1456,182 @@ list.innerHTML = `
    CONSULTATION
 ========================= */
 
-async function submitConsultation(event){
-
-event.preventDefault();
-
-const name =
-document.getElementById('consultName').value.trim();
-
-const phone =
-document.getElementById('consultPhone').value.trim();
-
-const type =
-document.getElementById('consultType').value;
-
-const subject =
-document.getElementById('consultSubject').value.trim();
-
-const description =
-document.getElementById('consultDescription').value.trim();
-
-
-if(
-!SUPABASE_KEY ||
-SUPABASE_KEY.includes('کلید عمومی')
-){
-
-alert(
-'کلید عمومی Supabase هنوز در کد وارد نشده است.'
-);
-
-return;
-
-}
-
-
-try{
-
-const response =
-await fetch(
-SUPABASE_URL +
-'/rest/v1/consultation_requests',
-{
-method:'POST',
-
-headers:{
-'apikey':SUPABASE_KEY,
-'Authorization':'Bearer '+SUPABASE_KEY,
-'Content-Type':'application/json',
-'Prefer':'return=minimal'
-},
-
-body:JSON.stringify({
-
-name:name,
-
-phone:phone,
-
-subject:type +
-' - ' +
-subject,
-
-description:description,
-
-status:'new'
-
-})
-
-}
-);
-
-
-if(!response.ok){
-
-throw new Error(
-'ثبت درخواست انجام نشد'
-);
-
-}
-
-
-alert(
-'درخواست مشاوره شما با موفقیت ثبت شد.'
-);
-
-
-event.target.reset();
-
-
-}catch(error){
-
-console.error(error);
-
-alert(
-'ثبت درخواست انجام نشد. لطفاً دوباره تلاش کنید.'
-);
-
-}
-
-}
-
-
-/* =========================
-   CASE FORM
-========================= */
-
-function submitCase(event){
-
-event.preventDefault();
-
-alert(
-'اطلاعات اولیه پرونده ثبت شد. این بخش در نسخه بعدی به سامانه پرونده متصل می‌شود.'
-);
-
-event.target.reset();
-
-}
-
-
-/* =========================
-   LAWS
-========================= */
-
-const laws = [
-
-{
-title:'قانون مدنی',
-category:'حقوق مدنی',
-text:'مجموعه مقررات مربوط به اشخاص، اموال، قراردادها، خانواده و سایر موضوعات حقوق مدنی.'
-},
-
-{
-title:'قانون مجازات اسلامی',
-category:'حقوق کیفری',
-text:'مقررات مربوط به جرایم، مجازات‌ها و مسئولیت کیفری.'
-},
-
-{
-title:'قانون تجارت',
-category:'حقوق تجارت',
-text:'مقررات مربوط به تجار، شرکت‌های تجاری، اسناد تجاری و امور بازرگانی.'
-},
-
-{
-title:'قانون آیین دادرسی مدنی',
-category:'آیین دادرسی',
-text:'مقررات مربوط به رسیدگی به دعاوی حقوقی در مراجع قضایی.'
-},
-
-{
-title:'قانون آیین دادرسی کیفری',
-category:'حقوق کیفری',
-text:'مقررات مربوط به تحقیقات و رسیدگی به جرایم و دعاوی کیفری.'
-},
-
-{
-title:'قانون حمایت خانواده',
-category:'حقوق خانواده',
-text:'مقررات مربوط به ازدواج، طلاق، نفقه، حضانت و سایر مسائل خانواده.'
-}
-
-];
-
-
-function loadLaws(){
-
-const list =
-document.getElementById('laws-list');
-
-
-list.innerHTML =
-laws.map(function(law){
-
-return `
-
-<div class="card legal-item">
-
-<div class="icon">⚖</div>
-
-<h3>
-${escapeHtml(law.title)}
-</h3>
-
-<p class="meta">
-${escapeHtml(law.category)}
-</p>
-
-<p>
-${escapeHtml(law.text)}
-</p>
-
-<a
-class="btn"
-href="#search"
-onclick="searchLaw('${law.title.replaceAll("'","")}')"
->
-جست‌وجو در این قانون
-</a>
-
-</div>
-
-`;
-
-}).join('');
-
-}
-
-
-function searchLaw(title){
-
-const input =
-document.getElementById('globalSearch');
-
-input.value=title;
-
-globalSearch();
-
-}
-
-
-/* =========================
-   GLOBAL SEARCH
-========================= */
-
-function globalSearch(){
-
-const query =
 document
-.getElementById('globalSearch')
-.value
-.trim()
-.toLowerCase();
+  .getElementById('consultForm')
+  .addEventListener('submit', async function(event){
+
+    event.preventDefault();
+
+    const message =
+      document.getElementById('consultMessage');
+
+    const form =
+      new FormData(event.target);
+
+    const name =
+      form.get('name');
+
+    const phone =
+      form.get('phone');
+
+    const type =
+      form.get('type');
+
+    const subject =
+      form.get('subject');
+
+    const description =
+      form.get('description');
+
+    message.textContent =
+      'در حال ثبت درخواست...';
+
+    try{
+
+      const response =
+        await fetch(
+          SUPABASE_URL +
+          '/rest/v1/consultation_requests',
+          {
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'apikey':SUPABASE_KEY,
+              'Authorization':'Bearer ' + SUPABASE_KEY,
+              'Prefer':'return=minimal'
+            },
+            body:JSON.stringify({
+              name:name,
+              phone:phone,
+              subject:
+                '[' + type + '] ' + subject,
+              description:description,
+              status:'new'
+            })
+          }
+        );
+
+      if(!response.ok){
+
+        throw new Error(
+          'ثبت درخواست ناموفق بود'
+        );
+
+      }
+
+      message.style.color =
+        '#1b574b';
+
+      message.textContent =
+        'درخواست شما با موفقیت ثبت شد.';
+
+      event.target.reset();
+
+    }catch(error){
+
+      console.error(error);
+
+      message.style.color =
+        '#a33';
+
+      message.textContent =
+        'ثبت درخواست انجام نشد. لطفاً دوباره تلاش کنید.';
+
+    }
+
+  });
 
 
-const result =
-document.getElementById('searchResults');
+/* =========================
+   CASE REGISTRATION
+========================= */
 
+document
+  .getElementById('caseForm')
+  .addEventListener('submit', async function(event){
 
-if(!query){
+    event.preventDefault();
 
-result.innerHTML='';
+    const message =
+      document.getElementById('caseMessage');
 
-return;
+    const form =
+      new FormData(event.target);
 
-}
+    const name =
+      form.get('name');
 
+    const phone =
+      form.get('phone');
 
-let matches=[];
+    const subject =
+      form.get('subject');
 
+    const city =
+      form.get('city');
 
-laws.forEach(function(law){
+    const description =
+      form.get('description');
 
-const text =
-(
-law.title +
-' ' +
-law.category +
-' ' +
-law.text
-).toLowerCase();
+    message.textContent =
+      'در حال ثبت اطلاعات پرونده...';
 
+    try{
 
-if(text.includes(query)){
+      const response =
+        await fetch(
+          SUPABASE_URL +
+          '/rest/v1/consultation_requests',
+          {
+            method:'POST',
+            headers:{
+              'Content-Type':'application/json',
+              'apikey':SUPABASE_KEY,
+              'Authorization':'Bearer ' + SUPABASE_KEY,
+              'Prefer':'return=minimal'
+            },
+            body:JSON.stringify({
+              name:name,
+              phone:phone,
+              subject:
+                '[ثبت پرونده] ' +
+                subject +
+                (city ? ' - ' + city : ''),
+              description:description,
+              status:'new'
+            })
+          }
+        );
 
-matches.push({
+      if(!response.ok){
 
-type:'قانون',
+        throw new Error(
+          'ثبت پرونده ناموفق بود'
+        );
 
-title:law.title,
+      }
 
-text:law.text
+      message.style.color =
+        '#1b574b';
 
-});
+      message.textContent =
+        'اطلاعات پرونده با موفقیت ثبت شد.';
 
-}
+      event.target.reset();
 
-});
+    }catch(error){
 
+      console.error(error);
 
-const articleCards =
-document.querySelectorAll(
-'#articles-list .card'
-);
+      message.style.color =
+        '#a33';
 
+      message.textContent =
+        'ثبت پرونده انجام نشد. لطفاً دوباره تلاش کنید.';
 
-articleCards.forEach(function(card){
+    }
 
-const text =
-card.innerText.toLowerCase();
-
-
-if(text.includes(query)){
-
-matches.push({
-
-type:'مقاله',
-
-title:
-card.querySelector('h3')?.innerText ||
-'مقاله حقوقی',
-
-text:
-card.innerText
-
-});
-
-}
-
-});
-
-
-if(!matches.length){
-
-result.innerHTML=`
-
-<div class="card">
-
-<h3>نتیجه‌ای پیدا نشد.</h3>
-
-<p>
-عبارت دیگری را امتحان کنید.
-</p>
-
-</div>
-
-`;
-
-return;
-
-}
-
-
-result.innerHTML =
-matches.map(function(item){
-
-return `
-
-<div class="card legal-item">
-
-<div class="meta">
-${escapeHtml(item.type)}
-</div>
-
-<h3>
-${escapeHtml(item.title)}
-</h3>
-
-<p>
-${escapeHtml(item.text)}
-</p>
-
-</div>
-
-`;
-
-}).join('');
-
-}
+  });
 
 
 /* =========================
@@ -1547,7 +1639,6 @@ ${escapeHtml(item.text)}
 ========================= */
 
 loadLaws();
-
 loadArticles();
 
 </script>
