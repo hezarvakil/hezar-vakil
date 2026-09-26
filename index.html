@@ -1079,12 +1079,17 @@ footer a{
 const SUPABASE_URL =
 'https://yrsuwiqslntwfscelbto.supabase.co';
 
-/*
-  کلید عمومی فعلی Supabase خودت را
-  در این قسمت نگه دار.
-*/
 const SUPABASE_KEY =
 'sb_publishable_JVjtLXkWbkgVrREhJE1fJA_vutsZn68';
+
+
+/* =========================
+   DATA
+========================= */
+
+let allArticles = [];
+let allLaws = [];
+let allLawArticles = [];
 
 
 /* =========================
@@ -1099,6 +1104,26 @@ function escapeHtml(value){
     .replaceAll('>','&gt;')
     .replaceAll('"','&quot;')
     .replaceAll("'","&#039;");
+
+}
+
+
+/* =========================
+   PERSIAN SEARCH NORMALIZER
+========================= */
+
+function normalizePersian(value){
+
+  return String(value ?? '')
+    .toLowerCase()
+    .replaceAll('ي','ی')
+    .replaceAll('ى','ی')
+    .replaceAll('ك','ک')
+    .replaceAll('ۀ','ه')
+    .replaceAll('ة','ه')
+    .replace(/\u200c/g,' ')
+    .replace(/\s+/g,' ')
+    .trim();
 
 }
 
@@ -1131,6 +1156,26 @@ document
 
 
 /* =========================
+   GET LAW NAME
+========================= */
+
+function getLawName(lawId){
+
+  const law =
+    allLaws.find(function(item){
+
+      return Number(item.id) === Number(lawId);
+
+    });
+
+  return law
+    ? law.name
+    : 'قانون';
+
+}
+
+
+/* =========================
    LAWS
 ========================= */
 
@@ -1144,7 +1189,7 @@ async function loadLaws(){
     const response =
       await fetch(
         SUPABASE_URL +
-        '/rest/v1/laws?select=id,name,category,approval_date,description&order=id.asc',
+        '/rest/v1/laws?select=id,name,category,approval_date,description,status&order=id.asc',
         {
           headers:{
             'apikey':SUPABASE_KEY,
@@ -1157,10 +1202,10 @@ async function loadLaws(){
       throw new Error('خطا در دریافت قوانین');
     }
 
-    const laws =
+    allLaws =
       await response.json();
 
-    if(!laws.length){
+    if(!allLaws.length){
 
       list.innerHTML = `
         <div class="card">
@@ -1173,7 +1218,7 @@ async function loadLaws(){
     }
 
     list.innerHTML =
-      laws.map(function(law){
+      allLaws.map(function(law){
 
         return `
           <div class="card">
@@ -1218,9 +1263,6 @@ async function loadLaws(){
 /* =========================
    ARTICLES
 ========================= */
-
-let allArticles = [];
-
 
 async function loadArticles(){
 
@@ -1323,6 +1365,56 @@ function renderArticles(articles){
 }
 
 
+/* =========================
+   LAW ARTICLES
+========================= */
+
+async function loadLawArticles(){
+
+  try{
+
+    const response =
+      await fetch(
+        SUPABASE_URL +
+        '/rest/v1/law_articles?select=id,law_id,article_number,title,content,status&order=law_id.asc,article_number.asc',
+        {
+          headers:{
+            'apikey':SUPABASE_KEY,
+            'Authorization':'Bearer ' + SUPABASE_KEY
+          }
+        }
+      );
+
+    if(!response.ok){
+      throw new Error('خطا در دریافت مواد قانونی');
+    }
+
+    allLawArticles =
+      await response.json();
+
+    console.log(
+      'مواد قانونی:',
+      allLawArticles.length
+    );
+
+  }catch(error){
+
+    console.error(
+      'خطا در دریافت مواد قانونی:',
+      error
+    );
+
+    allLawArticles = [];
+
+  }
+
+}
+
+
+/* =========================
+   SHOW ARTICLE
+========================= */
+
 function showArticle(id){
 
   const article =
@@ -1356,6 +1448,53 @@ function showArticle(id){
 }
 
 
+/* =========================
+   SHOW LAW ARTICLE
+========================= */
+
+function showLawArticle(id){
+
+  const article =
+    allLawArticles.find(function(item){
+
+      return Number(item.id) === Number(id);
+
+    });
+
+  if(!article){
+    return;
+  }
+
+  const lawName =
+    getLawName(article.law_id);
+
+  document.getElementById('modalTitle').textContent =
+    lawName +
+    (
+      article.article_number
+        ? ' — ماده ' + article.article_number
+        : ''
+    );
+
+  document.getElementById('modalMeta').textContent =
+    article.title
+      ? 'مواد قانونی — ' + article.title
+      : 'مواد قانونی';
+
+  document.getElementById('modalContent').textContent =
+    article.content || '';
+
+  document
+    .getElementById('articleModal')
+    .classList.add('show');
+
+}
+
+
+/* =========================
+   CLOSE ARTICLE
+========================= */
+
 function closeArticle(){
 
   document
@@ -1366,20 +1505,23 @@ function closeArticle(){
 
 
 /* =========================
-   SEARCH
+   GLOBAL SEARCH
 ========================= */
 
 function globalSearch(){
 
-  const query =
-    document
-      .getElementById('searchInput')
-      .value
-      .trim()
-      .toLowerCase();
+  const input =
+    document.getElementById('searchInput');
 
   const results =
     document.getElementById('searchResults');
+
+  if(!input || !results){
+    return;
+  }
+
+  const query =
+    normalizePersian(input.value);
 
   if(!query){
 
@@ -1388,68 +1530,268 @@ function globalSearch(){
     return;
   }
 
-  const found =
+
+  /* =========================
+     SEARCH ARTICLES
+  ========================= */
+
+  const articleResults =
     allArticles.filter(function(article){
 
       const text =
-        (
-          article.title +
-          ' ' +
-          (article.category || '') +
-          ' ' +
-          (article.summary || '') +
-          ' ' +
-          (article.content || '')
-        ).toLowerCase();
+        normalizePersian(
+          [
+            article.title,
+            article.category,
+            article.summary,
+            article.content,
+            article.author
+          ].join(' ')
+        );
 
       return text.includes(query);
 
     });
 
-  if(!found.length){
+
+  /* =========================
+     SEARCH LAWS
+  ========================= */
+
+  const lawResults =
+    allLaws.filter(function(law){
+
+      const text =
+        normalizePersian(
+          [
+            law.name,
+            law.category,
+            law.description,
+            law.status
+          ].join(' ')
+        );
+
+      return text.includes(query);
+
+    });
+
+
+  /* =========================
+     SEARCH LAW ARTICLES
+  ========================= */
+
+  const lawArticleResults =
+    allLawArticles.filter(function(article){
+
+      const lawName =
+        getLawName(article.law_id);
+
+      const text =
+        normalizePersian(
+          [
+            lawName,
+            article.article_number,
+            article.title,
+            article.content,
+            article.status
+          ].join(' ')
+        );
+
+      return text.includes(query);
+
+    });
+
+
+  /* =========================
+     NO RESULTS
+  ========================= */
+
+  if(
+    articleResults.length === 0 &&
+    lawResults.length === 0 &&
+    lawArticleResults.length === 0
+  ){
 
     results.innerHTML = `
       <div class="card">
+
         <h3>نتیجه‌ای پیدا نشد</h3>
+
         <p>
-          برای عبارت جست‌وجوشده مقاله‌ای پیدا نشد.
+          برای «${escapeHtml(input.value)}»
+          در قوانین، مواد قانونی و مقالات
+          نتیجه‌ای پیدا نشد.
         </p>
+
       </div>
     `;
 
     return;
+
   }
 
-  results.innerHTML =
-    found.map(function(article){
 
-      return `
-        <div class="card">
+  let html = '';
 
-          <div class="meta">
-            ${escapeHtml(article.category || '')}
-          </div>
 
-          <h3>
-            ${escapeHtml(article.title)}
-          </h3>
+  /* =========================
+     ARTICLES RESULTS
+  ========================= */
 
-          <p>
-            ${escapeHtml(article.summary || '')}
-          </p>
+  articleResults.forEach(function(article){
 
-          <button
-            class="btn btn-primary"
-            onclick="showArticle(${article.id})">
-            مطالعه مقاله
-          </button>
+    html += `
+      <div class="card">
 
+        <div class="meta">
+          مقاله حقوقی
         </div>
-      `;
 
-    }).join('');
+        <h3>
+          ${escapeHtml(article.title)}
+        </h3>
+
+        <p>
+          ${escapeHtml(
+            article.summary ||
+            article.content ||
+            ''
+          ).substring(0,350)}
+        </p>
+
+        <button
+          class="btn btn-primary"
+          onclick="showArticle(${article.id})">
+          مطالعه مقاله
+        </button>
+
+      </div>
+    `;
+
+  });
+
+
+  /* =========================
+     LAW RESULTS
+  ========================= */
+
+  lawResults.forEach(function(law){
+
+    html += `
+      <div class="card">
+
+        <div class="meta">
+          قانون
+        </div>
+
+        <h3>
+          ${escapeHtml(law.name)}
+        </h3>
+
+        <p>
+          ${escapeHtml(
+            law.description ||
+            'این قانون در پایگاه حقوقی هزار و یک وکیل ثبت شده است.'
+          )}
+        </p>
+
+        ${
+          law.category
+            ? `
+              <div class="meta">
+                ${escapeHtml(law.category)}
+              </div>
+            `
+            : ''
+        }
+
+      </div>
+    `;
+
+  });
+
+
+  /* =========================
+     LAW ARTICLE RESULTS
+  ========================= */
+
+  lawArticleResults.forEach(function(article){
+
+    const lawName =
+      getLawName(article.law_id);
+
+    html += `
+      <div class="card">
+
+        <div class="meta">
+          ماده قانونی
+        </div>
+
+        <h3>
+          ${escapeHtml(lawName)}
+          ${
+            article.article_number
+              ? ' — ماده ' +
+                escapeHtml(article.article_number)
+              : ''
+          }
+        </h3>
+
+        ${
+          article.title
+            ? `
+              <p>
+                <strong>
+                  ${escapeHtml(article.title)}
+                </strong>
+              </p>
+            `
+            : ''
+        }
+
+        <p>
+          ${escapeHtml(
+            article.content || ''
+          ).substring(0,400)}
+        </p>
+
+        <button
+          class="btn btn-primary"
+          onclick="showLawArticle(${article.id})">
+          مشاهده ماده
+        </button>
+
+      </div>
+    `;
+
+  });
+
+
+  results.innerHTML = html;
 
 }
+
+
+/* =========================
+   ENTER KEY SEARCH
+========================= */
+
+document
+  .getElementById('searchInput')
+  .addEventListener(
+    'keydown',
+    function(event){
+
+      if(event.key === 'Enter'){
+
+        event.preventDefault();
+
+        globalSearch();
+
+      }
+
+    }
+  );
 
 
 /* =========================
@@ -1458,88 +1800,92 @@ function globalSearch(){
 
 document
   .getElementById('consultForm')
-  .addEventListener('submit', async function(event){
+  .addEventListener(
+    'submit',
+    async function(event){
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const message =
-      document.getElementById('consultMessage');
+      const message =
+        document.getElementById('consultMessage');
 
-    const form =
-      new FormData(event.target);
+      const form =
+        new FormData(event.target);
 
-    const name =
-      form.get('name');
+      message.textContent =
+        'در حال ثبت درخواست...';
 
-    const phone =
-      form.get('phone');
+      try{
 
-    const type =
-      form.get('type');
+        const response =
+          await fetch(
+            SUPABASE_URL +
+            '/rest/v1/consultation_requests',
+            {
+              method:'POST',
 
-    const subject =
-      form.get('subject');
+              headers:{
+                'Content-Type':'application/json',
+                'apikey':SUPABASE_KEY,
+                'Authorization':
+                  'Bearer ' + SUPABASE_KEY,
+                'Prefer':'return=minimal'
+              },
 
-    const description =
-      form.get('description');
+              body:JSON.stringify({
 
-    message.textContent =
-      'در حال ثبت درخواست...';
+                name:
+                  form.get('name'),
 
-    try{
+                phone:
+                  form.get('phone'),
 
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          '/rest/v1/consultation_requests',
-          {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-              'apikey':SUPABASE_KEY,
-              'Authorization':'Bearer ' + SUPABASE_KEY,
-              'Prefer':'return=minimal'
-            },
-            body:JSON.stringify({
-              name:name,
-              phone:phone,
-              subject:
-                '[' + type + '] ' + subject,
-              description:description,
-              status:'new'
-            })
-          }
-        );
+                subject:
+                  '[' +
+                  form.get('type') +
+                  '] ' +
+                  form.get('subject'),
 
-      if(!response.ok){
+                description:
+                  form.get('description'),
 
-        throw new Error(
-          'ثبت درخواست ناموفق بود'
-        );
+                status:'new'
+
+              })
+
+            }
+          );
+
+        if(!response.ok){
+
+          throw new Error(
+            'ثبت درخواست ناموفق بود'
+          );
+
+        }
+
+        message.style.color =
+          '#1b574b';
+
+        message.textContent =
+          'درخواست شما با موفقیت ثبت شد.';
+
+        event.target.reset();
+
+      }catch(error){
+
+        console.error(error);
+
+        message.style.color =
+          '#a33';
+
+        message.textContent =
+          'ثبت درخواست انجام نشد. لطفاً دوباره تلاش کنید.';
 
       }
 
-      message.style.color =
-        '#1b574b';
-
-      message.textContent =
-        'درخواست شما با موفقیت ثبت شد.';
-
-      event.target.reset();
-
-    }catch(error){
-
-      console.error(error);
-
-      message.style.color =
-        '#a33';
-
-      message.textContent =
-        'ثبت درخواست انجام نشد. لطفاً دوباره تلاش کنید.';
-
     }
-
-  });
+  );
 
 
 /* =========================
@@ -1548,98 +1894,125 @@ document
 
 document
   .getElementById('caseForm')
-  .addEventListener('submit', async function(event){
+  .addEventListener(
+    'submit',
+    async function(event){
 
-    event.preventDefault();
+      event.preventDefault();
 
-    const message =
-      document.getElementById('caseMessage');
+      const message =
+        document.getElementById('caseMessage');
 
-    const form =
-      new FormData(event.target);
+      const form =
+        new FormData(event.target);
 
-    const name =
-      form.get('name');
+      message.textContent =
+        'در حال ثبت اطلاعات پرونده...';
 
-    const phone =
-      form.get('phone');
+      try{
 
-    const subject =
-      form.get('subject');
+        const response =
+          await fetch(
+            SUPABASE_URL +
+            '/rest/v1/consultation_requests',
+            {
+              method:'POST',
 
-    const city =
-      form.get('city');
+              headers:{
+                'Content-Type':'application/json',
+                'apikey':SUPABASE_KEY,
+                'Authorization':
+                  'Bearer ' + SUPABASE_KEY,
+                'Prefer':'return=minimal'
+              },
 
-    const description =
-      form.get('description');
+              body:JSON.stringify({
 
-    message.textContent =
-      'در حال ثبت اطلاعات پرونده...';
+                name:
+                  form.get('name'),
 
-    try{
+                phone:
+                  form.get('phone'),
 
-      const response =
-        await fetch(
-          SUPABASE_URL +
-          '/rest/v1/consultation_requests',
-          {
-            method:'POST',
-            headers:{
-              'Content-Type':'application/json',
-              'apikey':SUPABASE_KEY,
-              'Authorization':'Bearer ' + SUPABASE_KEY,
-              'Prefer':'return=minimal'
-            },
-            body:JSON.stringify({
-              name:name,
-              phone:phone,
-              subject:
-                '[ثبت پرونده] ' +
-                subject +
-                (city ? ' - ' + city : ''),
-              description:description,
-              status:'new'
-            })
-          }
-        );
+                subject:
+                  '[ثبت پرونده] ' +
+                  form.get('subject') +
+                  (
+                    form.get('city')
+                      ? ' - ' +
+                        form.get('city')
+                      : ''
+                  ),
 
-      if(!response.ok){
+                description:
+                  form.get('description'),
 
-        throw new Error(
-          'ثبت پرونده ناموفق بود'
-        );
+                status:'new'
+
+              })
+
+            }
+          );
+
+        if(!response.ok){
+
+          throw new Error(
+            'ثبت پرونده ناموفق بود'
+          );
+
+        }
+
+        message.style.color =
+          '#1b574b';
+
+        message.textContent =
+          'اطلاعات پرونده با موفقیت ثبت شد.';
+
+        event.target.reset();
+
+      }catch(error){
+
+        console.error(error);
+
+        message.style.color =
+          '#a33';
+
+        message.textContent =
+          'ثبت پرونده انجام نشد. لطفاً دوباره تلاش کنید.';
 
       }
 
-      message.style.color =
-        '#1b574b';
-
-      message.textContent =
-        'اطلاعات پرونده با موفقیت ثبت شد.';
-
-      event.target.reset();
-
-    }catch(error){
-
-      console.error(error);
-
-      message.style.color =
-        '#a33';
-
-      message.textContent =
-        'ثبت پرونده انجام نشد. لطفاً دوباره تلاش کنید.';
-
     }
-
-  });
+  );
 
 
 /* =========================
    START
 ========================= */
 
-loadLaws();
-loadArticles();
+async function initializeSite(){
+
+  console.log(
+    'در حال بارگذاری اطلاعات سایت...'
+  );
+
+  await Promise.all([
+
+    loadLaws(),
+
+    loadArticles(),
+
+    loadLawArticles()
+
+  ]);
+
+  console.log(
+    'اطلاعات سایت با موفقیت بارگذاری شد.'
+  );
+
+}
+
+initializeSite();
 
 </script>
 
